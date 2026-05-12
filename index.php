@@ -1,14 +1,6 @@
 <?php
-// 1. Selalu mulai dengan session_start() jika butuh mengecek status login
-session_start();
-
-// 2. Satpam Pengecek Gelang VIP (bjir satpam)
-// Jika variabel session 'user_id' KOSONG (artinya dia belum login)
-if (!isset($_SESSION['user_id'])) {
-    // Tendang balik pengunjung ke halaman login (kejam hehe)
-    header("Location: login.php");
-    exit; // Hentikan eksekusi kode ke bawah
-}
+// Cukup panggil satpam modularnya di baris paling atas
+require_once 'includes/auth_check.php';
 ?>
 
 <!DOCTYPE html>
@@ -16,18 +8,31 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Beranda - seHATIn</title>
+    <style>
+        .btn-logout {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #ff4d4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: sans-serif;
+        }
+        .btn-logout:hover {
+            background-color: #cc0000;
+        }
+    </style>
 </head>
 <body>
     <h2>Selamat Datang di Aplikasi seHATIn!</h2>
     
     <p>Halo, <strong><?= htmlspecialchars($_SESSION['user_name']) ?></strong>! Senang melihatmu.</p>
-    
     <p>Status akun kamu adalah: <strong><?= htmlspecialchars($_SESSION['user_role']) ?></strong>.</p>
 
     <hr>
     
-    <p> daftar kuis dan hasil evaluasi.</p>
+    <p>Di sini nanti kita akan menampilkan daftar kuis dan hasil evaluasi.</p>
 
-    <a href="logout.php"><button style="color: red;">Keluar (Logout)</button></a>
+    <a href="logout.php" class="btn-logout">Keluar (Logout)</a>
 </body>
 </html>
