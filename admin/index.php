@@ -38,9 +38,15 @@ requireAdmin(); // Pastikan hanya admin yang bisa lihat menu ini
     </div>
 
     <div class="card">
-        <h3>Pertanyaan</h3>
-        <p>Tambah/Edit soal kuis</p>
-        <a href="questions.php">Buka Manajemen</a>
+    <h3>Sub-Kategori</h3>
+    <p>Kelola sub-kelompok kuis</p>
+    <a href="subcategories.php">Buka Manajemen</a>
+    </div>
+
+    <div class="card">
+    <h3>Pertanyaan</h3>
+    <p>Tambah/Edit soal kuis</p>
+    <a href="questions.php">Buka Manajemen</a>
     </div>
 
     <hr>
