@@ -1,0 +1,26 @@
+.btn-quiz {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 12px 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-quiz:hover {
+    transform: scale(1.03);
+}
+
+.logout-btn {
+    background: #fee2e2;
+    color: var(--danger) !important;
+}
+
+.logout-btn:hover {
+    background: #fecaca !important;
+}
