@@ -4,78 +4,106 @@ require_once 'config/database.php';
 require_once 'includes/auth_check.php';
 requireLogin();
 
-// 1. Ambil category_id dari URL (misal: quiz.php?category_id=1)
 if (!isset($_GET['category_id'])) {
-    die("Kategori tidak ditemukan. Silakan pilih kategori kuis di beranda.");
+    die("Kategori belum dipilih.");
 }
 
-$category_id = $_GET['category_id'];
+$category_id = (int)$_GET['category_id'];
 
-// 2. Ambil informasi kategori untuk judul halaman
+// Ambil info kategori
 $stmt_cat = $pdo->prepare("SELECT * FROM categories WHERE id = ?");
 $stmt_cat->execute([$category_id]);
 $category = $stmt_cat->fetch();
 
 if (!$category) {
-    die("Kategori tidak valid.");
+    die("Kategori tidak ditemukan.");
 }
 
-// 3. Ambil soal yang hanya berhubungan dengan kategori ini (JOIN ke subcategories)
-$sql = "SELECT q.* FROM questions q 
-        JOIN subcategories s ON q.subcategory_id = s.id 
-        WHERE s.category_id = ? 
-        ORDER BY q.id ASC";
-$stmt_q = $pdo->prepare($sql);
-$stmt_q->execute([$category_id]);
-$questions = $stmt_q->fetchAll();
-?>
+// Eksekusi Query untuk mengambil soal
+$sql_questions = "SELECT q.* FROM questions q 
+                  JOIN subcategories s ON q.subcategory_id = s.id 
+                  WHERE s.category_id = ? 
+                  ORDER BY q.id ASC";
 
+$stmt_q = $pdo->prepare($sql_questions);
+$stmt_q->execute([$category_id]); 
+$questions = $stmt_q->fetchAll(); 
+$total_questions = count($questions);
+?> 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Kuis seHATIn - <?= htmlspecialchars($category['category_name']) ?></title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; color: #333; }
-        .question-card { background: #fff; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .options-group { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
-        label { cursor: pointer; padding: 8px; border-radius: 4px; transition: 0.2s; }
-        label:hover { background-color: #f0f7f0; }
-        input[type="radio"] { margin-right: 10px; }
-        .btn-submit { background: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
-        .btn-submit:hover { background: #218838; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis: <?= htmlspecialchars($category['category_name']) ?> - seHATIn</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pages/quiz.css">
+    <link rel="stylesheet" href="assets/css/components/forms.css">
 </head>
-<body>
+<body class="bg-subtle">
 
-    <h1>Evaluasi: <?= htmlspecialchars($category['category_name']) ?></h1>
-    <p>Silakan isi sejujur-jujurnya sesuai dengan apa yang Anda rasakan saat ini.</p>
-    <hr>
+    <nav>
+        <div class="logo">
+            <div class="logo-circle">S</div>
+            <div class="logo-text">seHATIn</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.php">Batal & Kembali</a>
+        </div>
+    </nav>
 
-    <?php if (empty($questions)): ?>
-        <p>Belum ada pertanyaan untuk kategori ini. Hubungi Admin.</p>
-    <?php else: ?>
-        <form action="process_quiz.php" method="POST">
+    <main class="quiz-page wrapper-single">
+        
+        <header class="card quiz-header">
+            <h1 class="quiz-title"><?= htmlspecialchars($category['category_name']) ?></h1>
+            <p class="quiz-desc">Jawablah dengan jujur sesuai dengan apa yang Anda rasakan akhir-akhir ini.</p>
+            
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span class="progress-text">Total Pertanyaan</span>
+                    <span class="progress-count"><?= $total_questions ?> Soal</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 5%;"></div>
+                </div>
+            </div>
+        </header>
+
+        <form action="process_quiz.php" method="POST" class="quiz-form">
             <input type="hidden" name="category_id" value="<?= $category_id ?>">
 
-            <?php $no = 1; foreach ($questions as $q): ?>
-                <div class="question-card">
-                    <p><strong>Pertanyaan <?= $no++ ?>:</strong></p>
-                    <p><?= htmlspecialchars($q['question_text']) ?></p>
-                    
+            <?php foreach ($questions as $index => $q): ?>
+                <div class="card question-card">
+                    <h3 class="question-text">
+                        <span class="question-number"><?= $index + 1 ?>.</span> 
+                        <?= htmlspecialchars($q['question_text']) ?>
+                    </h3>
+
                     <div class="options-group">
-                        <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="1" required> Sangat Tidak Setuju</label>
-                        <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="2"> Tidak Setuju</label>
-                        <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="3"> Ragu-ragu / Kadang-kadang</label>
-                        <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="4"> Setuju</label>
-                        <label><input type="radio" name="answers[<?= $q['id'] ?>]" value="5"> Sangat Setuju</label>
+                        <?php 
+                        $options = [
+                            5 => "Sangat Setuju",
+                            4 => "Setuju",
+                            3 => "Ragu-ragu",
+                            2 => "Tidak Setuju",
+                            1 => "Sangat Tidak Setuju"
+                        ];
+                        foreach ($options as $val => $label): 
+                        ?>
+                            <label class="option-card">
+                                <input type="radio" name="answers[<?= $q['id'] ?>]" value="<?= $val ?>" required class="sr-only">
+                                <span class="option-label"><?= $label ?></span>
+                            </label>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
 
-            <button type="submit" class="btn-submit">Selesai dan Lihat Hasil</button>
+            <div class="submit-section">
+                <button type="submit" class="btn btn-success btn-large">Selesai & Lihat Hasil</button>
+            </div>
         </form>
-    <?php endif; ?>
+    </main>
 
 </body>
 </html>

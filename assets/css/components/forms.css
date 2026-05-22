@@ -1,0 +1,55 @@
+/* assets/css/components/forms.css */
+
+/* Menyembunyikan radio button bawaan secara aksesibel */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.options-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-card {
+    display: block;
+    padding: 16px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md, 14px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+/* Efek saat di-hover */
+.option-card:hover {
+    border-color: var(--secondary);
+    background: #f8fafc;
+    transform: translateX(4px);
+}
+
+/* Sihir CSS: Efek saat radio button di dalamnya TERPILIH */
+.option-card:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.15);
+    transform: translateX(4px);
+}
+
+.option-card:has(input:checked) .option-label {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.option-label {
+    font-size: 1rem;
+    color: var(--text);
+    transition: 0.2s ease;
+}
