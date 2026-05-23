@@ -26,33 +26,28 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll(
         <div class="logo-text">seHATIn</div>
     </div>
 
-    <div class="nav-links">
+    <button class="hamburger-btn" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="nav-links" id="nav-links">
+        <a href="index.php" class="mobile-only">🏠 Beranda</a>
+        
         <a href="history.php">📜 Riwayat</a>
+        
+        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+            <a href="admin/index.php" class="mobile-only">🛠️ Dashboard Admin</a>
+        <?php endif; ?>
+        
         <a href="logout.php" class="logout-btn">Keluar</a>
     </div>
 </nav>
 
 <div class="wrapper">
 
-    <aside class="sidebar">
-        <div class="profile-box">
-            <div class="avatar">
-                <?= strtoupper(substr($_SESSION['user_name'] ?? 'U', 0, 1)) ?>
-            </div>
 
-            <h3><?= htmlspecialchars($_SESSION['user_name'] ?? 'Pengguna') ?></h3>
-            <p>Selamat datang kembali di seHATIn</p>
-        </div>
-
-        <div class="sidebar-menu">
-            <a href="index.php">🏠 Beranda</a>
-            <a href="history.php">📊 Riwayat Evaluasi</a>
-
-            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                <a href="admin/index.php">🛠️ Dashboard Admin</a>
-            <?php endif; ?>
-        </div>
-    </aside>
 
     <main class="content">
 
@@ -101,7 +96,47 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll(
         <?php endif; ?>
 
     </main>
+
+        <aside class="sidebar">
+        <div class="profile-box">
+            <div class="avatar">
+                <?= strtoupper(substr($_SESSION['user_name'] ?? 'U', 0, 1)) ?>
+            </div>
+
+            <h3><?= htmlspecialchars($_SESSION['user_name'] ?? 'Pengguna') ?></h3>
+            <p>Selamat datang kembali di seHATIn</p>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="index.php">🏠 Beranda</a>
+            <a href="history.php">📊 Riwayat Evaluasi</a>
+
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <a href="admin/index.php">🛠️ Dashboard Admin</a>
+            <?php endif; ?>
+        </div>
+    </aside>
+    
 </div>
+
+</main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navLinks = document.getElementById('nav-links');
+
+        if (hamburgerBtn && navLinks) {
+            hamburgerBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
 
 </body>
 </html>

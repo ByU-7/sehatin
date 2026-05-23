@@ -1,0 +1,153 @@
+/* assets/css/pages/result.css */
+
+.result-wrapper {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* --- HERO RESULT SECTION --- */
+.hero-result {
+    padding: 40px 30px;
+    border-top: 6px solid #ccc; /* Default fallback */
+}
+
+.category-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-weight: bold;
+}
+
+.result-title {
+    font-size: 2.2rem;
+    color: var(--text);
+    margin: 10px 0 5px 0;
+}
+
+.date-label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 30px;
+}
+
+/* --- MODERN SCORE CIRCLE --- */
+.score-showcase {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.modern-score-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    padding: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+}
+
+.inner-circle {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.score-number {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.score-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* --- DYNAMIC STATUS COLORS --- */
+.status-sangat-baik { border-top-color: #22c55e; }
+.status-sangat-baik .modern-score-circle { background: #22c55e; box-shadow: 0 10px 30px rgba(34, 197, 94, 0.25); }
+.status-sangat-baik .score-number, .status-sangat-baik .classification-badge { color: #16a34a; }
+
+.status-baik { border-top-color: #0ea5e9; }
+.status-baik .modern-score-circle { background: #0ea5e9; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.25); }
+.status-baik .score-number, .status-baik .classification-badge { color: #0284c7; }
+
+.status-cukup { border-top-color: #eab308; }
+.status-cukup .modern-score-circle { background: #eab308; box-shadow: 0 10px 30px rgba(234, 179, 8, 0.25); }
+.status-cukup .score-number, .status-cukup .classification-badge { color: #ca8a04; }
+
+.status-kurang { border-top-color: #ef4444; }
+.status-kurang .modern-score-circle { background: #ef4444; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25); }
+.status-kurang .score-number, .status-kurang .classification-badge { color: #dc2626; }
+
+/* --- CONTENT TEXT --- */
+.classification-badge {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.message-text {
+    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- BREAKDOWN SECTION --- */
+.breakdown-title {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.breakdown-subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    background: var(--bg);
+    border-radius: var(--radius-sm, 10px);
+    color: var(--muted);
+}
+
+/* --- ACTION BUTTONS (Container Only) --- */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    text-align: center;
+}
+
+@media(max-width: 600px) {
+    .action-buttons {
+        flex-direction: column-reverse;
+    }
+}

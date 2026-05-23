@@ -59,3 +59,28 @@
     width: 100%;
     max-width: 350px;
 }
+
+/* --- Tambahan untuk tombol Primary & Outline --- */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none; /* Reset border kalau sebelumnya ada */
+}
+
+.btn-primary:hover {
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #cbd5e1;
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    background: #f8fafc;
+    border-color: var(--muted);
+    transform: translateY(-2px);
+}

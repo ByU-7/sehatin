@@ -56,7 +56,7 @@ nav {
     margin: 40px auto;
     padding: 0 20px;
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 1fr 280px;
     gap: 30px;
 }
 
@@ -145,15 +145,109 @@ nav {
     gap: 22px;
 }
 
-/* --- RESPONSIVE --- */
-@media(max-width: 950px) {
-    .wrapper { grid-template-columns: 1fr; }
-    .sidebar { position: static; }
+
+/* --- HAMBURGER BUTTON --- */
+.hamburger-btn {
+    display: none; /* Sembunyikan di layar laptop */
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 101;
 }
 
+.hamburger-btn span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 3px;
+    transition: 0.3s ease;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUTS (MEDIA QUERIES)
+   ========================================= */
+
+/* --- 1. TABLET (Layar di bawah 950px) --- */
+@media(max-width: 950px) {
+    .wrapper { 
+        grid-template-columns: 1fr; /* Sidebar pindah ke atas/bawah */
+    }
+    .sidebar { 
+        position: static; 
+        margin-bottom: 20px;
+    }
+}
+
+/* Sembunyikan link tambahan di layar laptop */
+.mobile-only {
+    display: none !important;
+}
+
+
+/* --- 2. MOBILE & HAMBURGER (Layar di bawah 768px) --- */
+@media(max-width: 768px) {
+    /* Tampilkan Tombol Hamburger */
+    .hamburger-btn {
+        display: flex; 
+    }
+    
+    /* 1. Munculkan link tambahan di dalam hamburger menu */
+    .mobile-only {
+        display: block !important;
+    }
+
+    /* 2. Sembunyikan sidebar sepenuhnya di HP agar tidak double! */
+    .sidebar {
+        display: none;
+    }
+
+    /* Pastikan navbar tetap menyamping (tidak menumpuk) */
+    nav {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    /* Dropdown Menu */
+    .nav-links {
+        display: none; 
+        position: absolute;
+        top: 75px; /* Jarak dari atas navbar */
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        padding: 10px 5% 20px 5%;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .nav-links a {
+        text-align: center;
+        width: 100%;
+        padding: 15px;
+    }
+
+    /* Trigger dari JavaScript */
+    .nav-links.active {
+        display: flex;
+    }
+}
+
+/* --- 3. SMALL MOBILE (Layar di bawah 600px) --- */
 @media(max-width: 600px) {
-    nav { flex-direction: column; gap: 15px; }
-    .welcome-box { padding: 30px 25px; }
-    .welcome-box h1 { font-size: 1.6rem; }
-    .grid { grid-template-columns: 1fr; }
+    .welcome-box { 
+        padding: 30px 20px; 
+    }
+    .welcome-box h1 { 
+        font-size: 1.6rem; 
+    }
+    .grid { 
+        grid-template-columns: 1fr; /* Kartu jadi 1 kolom ke bawah */
+    }
 }
