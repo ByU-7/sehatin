@@ -173,38 +173,24 @@ nav {
 }
 
 
-/* --- 1. TABLET --- */
+/* =========================================
+   RESPONSIVE LAYOUTS (MEDIA QUERIES)
+   ========================================= */
+
+/* --- 1. TABLET & MOBILE (Layar di bawah 950px) --- */
 @media(max-width: 950px) {
     .wrapper { 
         grid-template-columns: 1fr; 
     }
+    
+    /* Sembunyikan sidebar sepenuhnya, pindahkan tugasnya ke Hamburger Menu */
     .sidebar { 
-        position: static; 
-        margin-bottom: 20px;
+        display: none; 
     }
-}
 
-/* Sembunyikan link tambahan di layar laptop */
-.mobile-only {
-    display: none !important;
-}
-
-
-/* --- 2. MOBILE & HAMBURGER  --- */
-@media(max-width: 768px) {
     /* Tampilkan Tombol Hamburger */
     .hamburger-btn {
         display: flex; 
-    }
-    
-    /* 1. Munculkan link tambahan di dalam hamburger menu */
-    .mobile-only {
-        display: block !important;
-    }
-
-    /* 2. Sembunyikan sidebar sepenuhnya di HP agar tidak double! */
-    .sidebar {
-        display: none;
     }
 
     nav {
@@ -212,7 +198,7 @@ nav {
         justify-content: space-between;
     }
 
-    /* Dropdown Menu */
+    /* Dropdown Menu styling */
     .nav-links {
         display: none; 
         position: absolute;
@@ -234,21 +220,19 @@ nav {
         padding: 15px;
     }
 
-    /* Trigger dari JavaScript */
     .nav-links.active {
         display: flex;
     }
+
+    /* Tampilkan menu-menu yang disembunyikan di laptop */
+    .mobile-only {
+        display: block !important;
+    }
 }
 
-/* --- 3. SMALL MOBILE --- */
+/* --- 2. SMALL MOBILE (Layar di bawah 600px) --- */
 @media(max-width: 600px) {
-    .welcome-box { 
-        padding: 30px 20px; 
-    }
-    .welcome-box h1 { 
-        font-size: 1.6rem; 
-    }
-    .grid { 
-        grid-template-columns: 1fr;
-    }
+    .welcome-box { padding: 30px 20px; }
+    .welcome-box h1 { font-size: 1.6rem; }
+    .grid { grid-template-columns: 1fr; }
 }

@@ -62,7 +62,14 @@ $questions = $pdo->query($sql)->fetchAll();
         <span style="background-color: #1e293b;"></span><span style="background-color: #1e293b;"></span><span style="background-color: #1e293b;"></span>
     </button>
     <div class="nav-links" id="nav-links">
-        <a href="../index.php" class="mobile-only">🏠 Beranda User</a>
+        <a href="index.php" class="mobile-only">⚙️ Dashboard Admin</a>
+        <a href="categories.php" class="mobile-only">📁 Data Kategori</a>
+        <a href="subcategories.php" class="mobile-only">📂 Data Subkategori</a>
+        <a href="questions.php" class="mobile-only">📝 Data Pertanyaan</a>
+        
+        <hr class="mobile-only" style="border:0; border-top: 1px solid #e2e8f0; margin: 5px 0; width: 100%;">
+        
+        <a href="../index.php" class="mobile-only">👀 Lihat Tampilan User</a>
         <a href="../logout.php" class="logout-btn">Keluar</a>
     </div>
 </nav>
