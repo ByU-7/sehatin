@@ -1,0 +1,53 @@
+/* assets/css/pages/history.css */
+
+.card-table-wrapper {
+    padding: 20px 0; /* Mengurangi padding agar tabel bisa penuh */
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 650px; /* Mencegah tabel menyusut terlalu kecil di HP */
+}
+
+th, td {
+    padding: 16px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: transparent;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+tr:last-child td {
+    border-bottom: none; /* Menghilangkan garis di baris paling bawah */
+}
+
+tr:hover {
+    background-color: #f8fafc;
+    transition: background-color 0.2s ease;
+}
+
+.date-text {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* Modifikasi tombol outline khusus untuk ukuran kecil di tabel */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
