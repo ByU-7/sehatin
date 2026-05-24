@@ -114,7 +114,7 @@ nav {
     display: flex; 
     flex-direction: column; 
     gap: 25px; 
-  
+    min-width: 0;
 }
 
 .welcome-box {
