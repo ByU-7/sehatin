@@ -110,7 +110,12 @@ nav {
 }
 
 /* --- CONTENT AREA --- */
-.content { display: flex; flex-direction: column; gap: 25px; }
+.content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 25px; 
+  
+}
 
 .welcome-box {
     background: linear-gradient(135deg, var(--primary), #6366f1);
@@ -167,14 +172,11 @@ nav {
     transition: 0.3s ease;
 }
 
-/* =========================================
-   RESPONSIVE LAYOUTS (MEDIA QUERIES)
-   ========================================= */
 
-/* --- 1. TABLET (Layar di bawah 950px) --- */
+/* --- 1. TABLET --- */
 @media(max-width: 950px) {
     .wrapper { 
-        grid-template-columns: 1fr; /* Sidebar pindah ke atas/bawah */
+        grid-template-columns: 1fr; 
     }
     .sidebar { 
         position: static; 
@@ -188,7 +190,7 @@ nav {
 }
 
 
-/* --- 2. MOBILE & HAMBURGER (Layar di bawah 768px) --- */
+/* --- 2. MOBILE & HAMBURGER  --- */
 @media(max-width: 768px) {
     /* Tampilkan Tombol Hamburger */
     .hamburger-btn {
@@ -205,7 +207,6 @@ nav {
         display: none;
     }
 
-    /* Pastikan navbar tetap menyamping (tidak menumpuk) */
     nav {
         flex-direction: row;
         justify-content: space-between;
@@ -215,7 +216,7 @@ nav {
     .nav-links {
         display: none; 
         position: absolute;
-        top: 75px; /* Jarak dari atas navbar */
+        top: 75px; 
         left: 0;
         width: 100%;
         background: rgba(255, 255, 255, 0.98);
@@ -239,7 +240,7 @@ nav {
     }
 }
 
-/* --- 3. SMALL MOBILE (Layar di bawah 600px) --- */
+/* --- 3. SMALL MOBILE --- */
 @media(max-width: 600px) {
     .welcome-box { 
         padding: 30px 20px; 
@@ -248,6 +249,6 @@ nav {
         font-size: 1.6rem; 
     }
     .grid { 
-        grid-template-columns: 1fr; /* Kartu jadi 1 kolom ke bawah */
+        grid-template-columns: 1fr;
     }
 }
