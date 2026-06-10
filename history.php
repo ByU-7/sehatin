@@ -26,9 +26,9 @@ $history = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Evaluasi - seHATIn</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components/badges.css">
-    <link rel="stylesheet" href="assets/css/pages/history.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/components/badges.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/pages/history.css?v=<?= time() ?>">
 </head>
 <body>
 

@@ -16,7 +16,8 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda - seHATIn</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>">
 </head>
 <body>
 
@@ -119,9 +120,6 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll(
     
 </div>
 
-</main>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -134,9 +132,6 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY id ASC")->fetchAll(
         }
     });
 </script>
-
-</body>
-</html>
 
 </body>
 </html>

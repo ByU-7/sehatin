@@ -1,60 +1,92 @@
 <?php
-// Memanggil kunci database
+// register.php
 require_once 'config/database.php';
 
-$pesan = ""; // Variabel kosong untuk menampung pesan sukses/gagal
+$pesan = "";
+$status = ""; // Untuk class alert CSS (error/success)
 
-// Jika tombol "Daftar" ditekan, maka jalankan kode ini:
+// --- BLOK LOGIKA (PHP) ---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    // Hashing: Mengacak password agar tidak bisa dibaca, bahkan oleh admin database
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
+    $name = $_POST['name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password_raw = $_POST['password'] ?? '';
+    $password = password_hash($password_raw, PASSWORD_DEFAULT); 
 
     try {
-        // Menyiapkan perintah SQL untuk memasukkan data ke tabel users
         $sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'user')";
         $stmt = $pdo->prepare($sql);
-        
-        // Mengeksekusi perintah dengan data yang diketik user
         $stmt->execute([$name, $email, $password]);
         
-        $pesan = "Pendaftaran berhasil! Akun kamu sudah siap.";
+        $pesan = "Pendaftaran berhasil! Akun Anda sudah siap.";
+        $status = "success";
     } catch (PDOException $e) {
-        // Kode 23000 adalah kode error MySQL jika ada email yang kembar/duplikat
         if ($e->getCode() == 23000) {
             $pesan = "Gagal: Email tersebut sudah terdaftar!";
+            $status = "error";
         } else {
-            $pesan = "Terjadi kesalahan: " . $e->getMessage();
+            $pesan = "Terjadi kesalahan sistem.";
+            $status = "error";
         }
     }
 }
+// --- AKHIR BLOK LOGIKA ---
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar - seHATIn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/base/variables.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/pages/auth.css?v=<?= time() ?>">
 </head>
 <body>
-    <h2>Buat Akun seHATIn</h2>
-    
-    <?php if ($pesan): ?>
-        <p style="color: blue;"><strong><?= $pesan ?></strong></p>
-    <?php endif; ?>
+    <div class="auth-split-layout">
+        <div class="auth-visual">
+            <div class="auth-visual-content">
+                <h1>Mulai Perjalanan Anda</h1>
+                <p>Daftar sekarang dan ambil langkah pertama untuk memantau kesehatan serta kebiasaan positif Anda bersama seHATIn.</p>
+            </div>
+        </div>
+        
+        <div class="auth-form-container">
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>Buat Akun Baru</h2>
+                    <p>Lengkapi data di bawah untuk bergabung.</p>
+                </div>
 
-    <form method="POST" action="">
-        <label>Nama Lengkap:</label><br>
-        <input type="text" name="name" required><br><br>
+                <?php if ($pesan): ?>
+                    <div class="auth-alert <?= $status ?>">
+                        <strong><?= htmlspecialchars($pesan) ?></strong>
+                    </div>
+                <?php endif; ?>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+                <form method="POST" action="">
+                    <div class="form-floating">
+                        <input type="text" name="name" id="name" required placeholder=" ">
+                        <label for="name">Nama Lengkap</label>
+                    </div>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+                    <div class="form-floating">
+                        <input type="email" name="email" id="email" required placeholder=" ">
+                        <label for="email">Alamat Email</label>
+                    </div>
 
-        <button type="submit">Daftar</button>
-    </form>
+                    <div class="form-floating">
+                        <input type="password" name="password" id="password" required placeholder=" ">
+                        <label for="password">Buat Password</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth">Daftar Akun Baru</button>
+                </form>
+
+                <div class="auth-footer">
+                    Sudah punya akun? <a href="login.php">Masuk di sini</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

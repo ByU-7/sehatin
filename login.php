@@ -1,69 +1,93 @@
 <?php
-// 1. Memulai pembagian "Gelang VIP"
+// login.php
 session_start();
-
 require_once 'config/database.php';
 
 $pesan = "";
+$status = ""; // Untuk class alert CSS (error/success)
 
-// Jika tombol "Masuk" ditekan:
+// --- BLOK LOGIKA (PHP) ---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
     try {
-        // 2. Cari data user di dapur (database) berdasarkan email
         $sql = "SELECT * FROM users WHERE email = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email]);
-        
-        // Ambil datanya (jika ada)
         $user = $stmt->fetch();
 
-        // 3. Pengecekan: Apakah user ketemu? DAN Apakah passwordnya cocok?
-        // password_verify() ini yang bisa membaca kode acak hasil hash saat register tadi
         if ($user && password_verify($password, $user['password'])) {
-            
-            // 4. Jika cocok, pakaikan "Gelang VIP" (Simpan data ke Session)
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_role'] = $user['role']; // Penting nanti untuk bedakan Admin/User
-
-            // 5. Arahkan user ke halaman utama (kita buat nanti)
+            $_SESSION['user_role'] = $user['role'];
+            
             header("Location: index.php");
-            exit; // Hentikan script di bawahnya
+            exit;
         } else {
             $pesan = "Email atau password salah!";
+            $status = "error";
         }
     } catch (PDOException $e) {
-        $pesan = "Terjadi kesalahan: " . $e->getMessage();
+        $pesan = "Terjadi kesalahan sistem.";
+        $status = "error";
     }
 }
+// --- AKHIR BLOK LOGIKA ---
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - seHATIn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Menggunakan cache buster (?v=timestamp) agar browser selalu mengambil CSS terbaru -->
+    <link rel="stylesheet" href="assets/css/base/variables.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="assets/css/pages/auth.css?v=<?= time() ?>">
 </head>
 <body>
-    <h2>Masuk ke seHATIn</h2>
-    
-    <?php if ($pesan): ?>
-        <p style="color: red;"><strong><?= $pesan ?></strong></p>
-    <?php endif; ?>
+    <div class="auth-split-layout">
+        <div class="auth-visual">
+            <div class="auth-visual-content">
+                <h1>seHATIn</h1>
+                <p>Platform evaluasi kesehatan mental dan kebiasaan sehari-hari yang membantu Anda memahami kondisi diri lebih baik, satu langkah setiap harinya.</p>
+            </div>
+        </div>
+        
+        <div class="auth-form-container">
+            <div class="auth-form-wrapper">
+                <div class="auth-header">
+                    <h2>Selamat Datang</h2>
+                    <p>Silakan masuk untuk melanjutkan evaluasi Anda.</p>
+                </div>
 
-    <form method="POST" action="">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+                <?php if ($pesan): ?>
+                    <div class="auth-alert <?= $status ?>">
+                        <strong><?= htmlspecialchars($pesan) ?></strong>
+                    </div>
+                <?php endif; ?>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+                <form method="POST" action="">
+                    <div class="form-floating">
+                        <!-- Placeholder " " (spasi) diperlukan untuk memicu label mengecil (Floating Label) -->
+                        <input type="email" name="email" id="email" required placeholder=" ">
+                        <label for="email">Alamat Email</label>
+                    </div>
 
-        <button type="submit">Masuk</button>
-    </form>
-    
-    <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+                    <div class="form-floating">
+                        <input type="password" name="password" id="password" required placeholder=" ">
+                        <label for="password">Password</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth">Masuk ke Dashboard</button>
+                </form>
+                
+                <div class="auth-footer">
+                    Belum punya akun? <a href="register.php">Daftar sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
